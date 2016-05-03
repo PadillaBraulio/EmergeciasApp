@@ -8,11 +8,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager pager = null;
     private TabAdapter pageradapter = null;
+    private String CLASS = "Principal";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +23,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+
         viewPager.setAdapter(new TabAdapter(getSupportFragmentManager(),
                 MainActivity.this));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.i(CLASS,"Pagina seleccionada " + position);
+                switch (position)
+                {
+                    case 0:
+
+                        break;
+                    default:
+
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -46,8 +74,16 @@ public class MainActivity extends AppCompatActivity {
         {
             switch (position)
             {
+               case 0 : return new MapGoogle();
+                //case 0: return new MapGoogleFragment();
 
-                default: return DefaultFragment.newInstance(1 + position);
+
+                default:
+                {
+
+
+                    return DefaultFragment.newInstance(1 + position);
+                }
 
             }
         }
