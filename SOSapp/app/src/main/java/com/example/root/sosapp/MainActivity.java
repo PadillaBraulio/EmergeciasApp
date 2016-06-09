@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager.setAdapter(new TabAdapter(getSupportFragmentManager(),
                 MainActivity.this));
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
