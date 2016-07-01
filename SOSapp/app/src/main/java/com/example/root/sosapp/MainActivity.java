@@ -76,14 +76,13 @@ public class MainActivity extends AppCompatActivity {
             switch (position)
             {
                case 0 : return new MapGoogle();
-                //case 0: return new MapGoogleFragment();
 
 
                 default:
                 {
 
 
-                    return DefaultFragment.newInstance(1 + position);
+                    return DefaultFragment.newInstance(position + 1);
                 }
 
             }

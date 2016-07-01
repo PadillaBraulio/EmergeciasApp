@@ -3,13 +3,20 @@ package com.example.root.sosapp;
 import android.Manifest;
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,11 +58,14 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     private GoogleMap mMap;
     private Marker marker;
     private static final String CLASSNAME = "MapGoogle";
+    private static final int PERMISSION_ACCES_FINE_LOCATION1 = 1;
+    private static final int PERMISSION_ACCES_FINE_LOCATION2 = 2;
     private Button abuton;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
     private boolean mRequestingLocationUpdates;
+    private float mAccuaracy;
 
 
     @Override
@@ -111,26 +121,57 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
         RelativeLayout layout = new RelativeLayout(v.getContext());
 
         layout.addView(v, new RelativeLayout.LayoutParams(-1, -1));
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.RECTANGLE);
+        drawable.setColor(Color.parseColor("#F7B612"));
+        drawable.setCornerRadius(100);
 
         abuton = new Button(v.getContext());
-        abuton.setText(" Activar GPS !");
+        abuton.setText("LLAMAR");
+        abuton.setTextSize(18);
+        abuton.setTextColor(Color.WHITE);
+        abuton.setBackgroundDrawable(drawable);
+
+
         abuton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                abuton.setText("CAMBIO");
+                String text = (String) abuton.getText();
+                Emergency emergency = new Emergency(mLastLocation.getLatitude(),mLastLocation.getLongitude(),"558882288");
+                Thread h = new Thread(emergency);
+                h.start();
+                switch (text)
+                {
+                    case "LLAMAR":
+                    {
+                        String phone = "50173200";
+                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.fromParts("tel", phone, null));
+                        startActivity(intent);
+                        //abuton.setText("MENSAJE");
+                        break;
+                    }
+                    case "MENSAJE":
+                    {
+                        SmsManager sm = SmsManager.getDefault();
+                        String number = "50173200";
+                        String msg = "Latitud: " + mLastLocation.getLatitude() + " - Longitud : " + mLastLocation.getLongitude();
+                        sm.sendTextMessage(number, null, msg, null, null);
+                        break;
+                    }
+
+                }
                 Log.i(CLASSNAME, "CLICKEADO");
             }
         });
-        //abuton.setBackgroundColor(Color.YELLOW);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
-                (RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                (RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        params.setMargins(20, 0, 20, 40);
+
         layout.addView(abuton, params);
 
-
-        // initializeMap();
-        return layout;  //return
+        return layout;
     }
 
     private void setUpMapIfNeeded() {
@@ -151,14 +192,8 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     protected void startLocationUpdates() {
 
         mRequestingLocationUpdates = true;
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ACCES_FINE_LOCATION1);
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(
@@ -169,7 +204,8 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
 
         mMap.getUiSettings().setMapToolbarEnabled(false);
 
-        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
             UiSettings settings = mMap.getUiSettings();
@@ -202,22 +238,14 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
 
     @Override
     public void onConnected( Bundle bundle) {
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ACCES_FINE_LOCATION2);
             return;
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
 
         if (mLastLocation != null) {
-            Log.i(CLASSNAME,String.valueOf(mLastLocation.getLatitude()) +
-                    " " + String.valueOf(mLastLocation.getLongitude()));
             createLocationRequest();
         }
     }
@@ -246,6 +274,7 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
                         // All location settings are satisfied. The client can
                         // initialize location requests here.
                         //text.setText("updates");
+                        Log.i(CLASSNAME, "Status Excelente");
                         startLocationUpdates();
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
@@ -255,6 +284,7 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
                             // Show the dialog by calling startResolutionForResult(),
                             // and check the result in onActivityResult().
                             //text.setText("permiso");
+                            Log.i(CLASSNAME, "Status Recuperable");
                             status.startResolutionForResult(
                                     getActivity(),
                                     10);
@@ -266,6 +296,7 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
                     case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
                         // Location settings are not satisfied. However, we have no way
                         // to fix the settings so we won't show the dialog.
+                        Log.i(CLASSNAME, "Status Irecuperable");
                         break;
                 }
             }
@@ -281,17 +312,64 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     @Override
     public void onLocationChanged(Location location) {
         mLastLocation = location;
+        mAccuaracy = location.getAccuracy();
         updateMap();
     }
 
     public void updateMap()
     {
+        Log.i(CLASSNAME," Rango "+ mAccuaracy );
         LatLng ubication = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
-        this.mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubication,16));
+        this.mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubication,15));
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_ACCES_FINE_LOCATION1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    LocationServices.FusedLocationApi.requestLocationUpdates(
+                            mGoogleApiClient, mLocationRequest, this);
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+            case PERMISSION_ACCES_FINE_LOCATION2:{
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                            mGoogleApiClient);
+
+                    if (mLastLocation != null) {
+                        createLocationRequest();
+                    }
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
 
     }
 }
