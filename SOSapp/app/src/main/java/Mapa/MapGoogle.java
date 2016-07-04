@@ -1,20 +1,18 @@
-package com.example.root.sosapp;
+package Mapa;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -112,7 +110,11 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
         mGoogleApiClient.disconnect();
         super.onStop();
     }
-
+    public boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -137,6 +139,15 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
             @Override
             public void onClick(View v) {
                 String text = (String) abuton.getText();
+                if(isOnline())
+                {
+                    Log.i(CLASSNAME, "Esta en linea");
+                }
+                else
+                {
+
+                    Log.i(CLASSNAME, "NO Esta en linea");
+                }
                 Emergency emergency = new Emergency(mLastLocation.getLatitude(),mLastLocation.getLongitude(),"558882288");
                 Thread h = new Thread(emergency);
                 h.start();
@@ -154,7 +165,7 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
                     {
                         SmsManager sm = SmsManager.getDefault();
                         String number = "50173200";
-                        String msg = "Latitud: " + mLastLocation.getLatitude() + " - Longitud : " + mLastLocation.getLongitude();
+                        String msg = "Latitud: " + mLastLocation.getLatitude() + "   Longitud : " + mLastLocation.getLongitude();
                         sm.sendTextMessage(number, null, msg, null, null);
                         break;
                     }
@@ -333,11 +344,9 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
         switch (requestCode) {
             case PERMISSION_ACCES_FINE_LOCATION1: {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    LocationServices.FusedLocationApi.requestLocationUpdates(
-                            mGoogleApiClient, mLocationRequest, this);
+                    LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 
                 } else {
 
@@ -351,8 +360,7 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                            mGoogleApiClient);
+                    mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
                     if (mLastLocation != null) {
                         createLocationRequest();

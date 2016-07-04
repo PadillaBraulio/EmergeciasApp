@@ -1,4 +1,4 @@
-package com.example.root.sosapp;
+package Mapa;
 
 import android.util.Log;
 
@@ -7,15 +7,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 /**
  * Created by root on 30/06/16.
  */
 public class Emergency implements Runnable{
-    private final static String DOMAIN = "192.168.1.11:3000";
+    //LOCAL DIRECTION "http://192.168.1.11:3000"
+    //CLOUD9 DIRECTION https://webserversosapp-brauliojuancarlos.c9users.io
+    private final static String DOMAIN = "https://webserversosapp-brauliojuancarlos.c9users.io" ;
     private static final String CLASSNAME = "Emergency";
     private final double latitude;
     private final double longitude;
@@ -33,7 +33,7 @@ public class Emergency implements Runnable{
 
         String forecastJsonStr = null;
         try {
-            URL url = new URL("http://" + DOMAIN + "/webservices/PutEmergency?" +
+            URL url = new URL( DOMAIN + "/webservices/PutEmergency?" +
                     "latitude=" + this.latitude +
                     "&longitude=" + this.longitude +
                     "&telefone=" +  this.numberphone);
