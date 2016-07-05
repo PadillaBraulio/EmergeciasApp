@@ -2,6 +2,12 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary200">#9FA8DA</color>
+    <color name="colorPrimary400">#5C6BC0</color>
+    <color name="colorGray200">#EEEEEE</color>
+    <color name="colorGray300">#E0E0E0</color>
+    <color name="colorGray400">#BDBDBD</color>
+
     <color name="colorAccent">#FF4081</color>
     <color name="orange">#d4680f</color>
 </resources>
