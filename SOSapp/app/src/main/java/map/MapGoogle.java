@@ -1,4 +1,4 @@
-package Mapa;
+package map;
 
 import android.Manifest;
 import android.content.Context;

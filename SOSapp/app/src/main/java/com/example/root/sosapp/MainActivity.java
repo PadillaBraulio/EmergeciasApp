@@ -10,9 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import Mapa.MapGoogle;
+import manuals.ItemFragment;
+import manuals.doc.DocContent;
+import map.MapGoogle;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
 
     private ViewPager pager = null;
     private TabAdapter pageradapter = null;
@@ -60,10 +62,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onListFragmentInteraction(DocContent.DummyItem item) {
+
+    }
+
     public static class TabAdapter extends FragmentPagerAdapter
     {
-        private final static int PAG_COUNT = 3;
-        private String [] tabTitles = {"Ubicación","Manuales","Donativos"};
+        private final static int PAG_COUNT = 2;
+        private String [] tabTitles = {"Ubicación", "manuales"};
         private Context context;
 
         public TabAdapter(FragmentManager fm, Context context)  {
@@ -78,15 +85,9 @@ public class MainActivity extends AppCompatActivity {
             {
                case 0 : return new MapGoogle();
 
-
-                default:
-                {
-
-
-                    return DefaultFragment.newInstance(position + 1);
-                }
-
+                case 1 : return new ItemFragment();
             }
+            return  null;
         }
 
         @Override

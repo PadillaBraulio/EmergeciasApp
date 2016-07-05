@@ -1,4 +1,4 @@
-package Mapa;
+package map;
 
 import android.util.Log;
 
