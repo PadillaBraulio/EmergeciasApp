@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.example.root.sosapp.R;
 
 import manuals.doc.DocContent;
-import manuals.doc.DocContent.DummyItem;
+import manuals.doc.DocContent.Document;
 
 /**
  * A fragment representing a list of Items.
@@ -41,7 +41,7 @@ public class ItemFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new ItemRecyclerViewAdapter(DocContent.ITEMS, mListener));
+            recyclerView.setAdapter(new ItemRecyclerViewAdapter(DocContent.DOCUMENTS, mListener));
         }
         return view;
     }
@@ -61,11 +61,10 @@ public class ItemFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        //mListener = null;
+        mListener = null;
     }
 
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Document item);
     }
 }

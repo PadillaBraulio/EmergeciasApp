@@ -4,29 +4,30 @@ package manuals.doc;
 public class DocContent {
 
 
-    public static final DummyItem ITEMS []= {
-            new DummyItem("1","Primeros auxilios", "Breve descripción acerca de primeros auxilios."),
-            new DummyItem("2","Quebraduras", "Qué hacer si ocurre una quebradura."),
+    public static final Document DOCUMENTS[]= {
+            new Document("1","Primeros auxilios", "Breve descripción acerca de primeros auxilios.","manual.pdf"),
+            new Document("2","Fracturas", "Qué hacer si ocurre una Fractura.",null),
     };
-
-    private static final int COUNT = ITEMS.length;
-
+    private static final int COUNT = DOCUMENTS.length;
 
 
-    public static class DummyItem {
+
+    public static class Document {
         public final String id;
         public final String content;
         public final String summary;
+        public final String filename;
 
-        public DummyItem(String id, String content, String summary) {
+        public Document(String id, String content, String summary, String filename) {
             this.id = id;
             this.content = content;
             this.summary = summary;
+            this.filename = filename;
         }
 
         @Override
         public String toString() {
-            return content;
+            return  id + " : Titulo : " + content + " , summary : " + summary + " filename " + filename;
         }
     }
 }

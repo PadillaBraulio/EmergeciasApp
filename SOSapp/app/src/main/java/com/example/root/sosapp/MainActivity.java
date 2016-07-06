@@ -9,16 +9,16 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import manuals.ItemFragment;
+import manuals.PdfViewer;
 import manuals.doc.DocContent;
 import map.MapGoogle;
 
 public class MainActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
 
     private ViewPager pager = null;
-    private TabAdapter pageradapter = null;
-    private String CLASS = "Principal";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,31 +30,6 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
         viewPager.setAdapter(new TabAdapter(getSupportFragmentManager(),
                 MainActivity.this));
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                Log.i(CLASS,"Pagina seleccionada " + position);
-                switch (position)
-                {
-                    case 0:
-
-                        break;
-                    default:
-
-                        break;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -63,14 +38,15 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     }
 
     @Override
-    public void onListFragmentInteraction(DocContent.DummyItem item) {
-
+    public void onListFragmentInteraction(DocContent.Document item) {
+        PdfViewer pdf = new PdfViewer(getApplicationContext(),item.filename);
+        pdf.showPdf();
     }
 
     public static class TabAdapter extends FragmentPagerAdapter
     {
         private final static int PAG_COUNT = 2;
-        private String [] tabTitles = {"Ubicación", "manuales"};
+        private String [] tabTitles = {"Ubicación", "Manuales"};
         private Context context;
 
         public TabAdapter(FragmentManager fm, Context context)  {

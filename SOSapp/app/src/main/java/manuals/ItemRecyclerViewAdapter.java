@@ -11,21 +11,14 @@ import manuals.ItemFragment.OnListFragmentInteractionListener;
 
 import com.example.root.sosapp.R;
 
-import manuals.doc.DocContent.DummyItem;
+import manuals.doc.DocContent.Document;
 
-import java.util.List;
-
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerViewAdapter.ViewHolder> {
 
-    private final DummyItem mValues [];
+    private final Document mValues [];
     private final OnListFragmentInteractionListener mListener;
 
-    public ItemRecyclerViewAdapter(DummyItem items[], OnListFragmentInteractionListener listener) {
+    public ItemRecyclerViewAdapter(Document items[], OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -47,8 +40,6 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerVi
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
                 }
             }
@@ -65,7 +56,7 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerVi
         public final ImageView mImageView;
         public final TextView mContentView;
         public final TextView mSummaryView;
-        public DummyItem mItem;
+        public Document mItem;
 
         public ViewHolder(View view) {
             super(view);
