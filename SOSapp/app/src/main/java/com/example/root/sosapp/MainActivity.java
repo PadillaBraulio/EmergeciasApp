@@ -8,8 +8,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import manuals.ItemFragment;
 import manuals.PdfViewer;
@@ -35,6 +35,15 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
         tabLayout.setupWithViewPager(viewPager);
 
 
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
     }
 
     @Override

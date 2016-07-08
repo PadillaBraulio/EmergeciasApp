@@ -6,4 +6,7 @@
     <string name="google_map_key">AIzaSyD3Bg5aUAR30ooRa1Gjyvig3PaVjyv1KpA</string>
     <string name="SendLocation">Enviar ubicación</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="cellPhoneNumber">Ingrese su número de telefono</string>
+    <string name="DefaultStringValue"></string>
+    <string name="action_settings">Settings</string>
 </resources>
