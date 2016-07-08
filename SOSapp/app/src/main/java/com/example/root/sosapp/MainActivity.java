@@ -1,6 +1,7 @@
 package com.example.root.sosapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,23 +12,23 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import manuals.ItemFragment;
 import manuals.PdfViewer;
 import manuals.doc.DocContent;
 import map.MapGoogle;
+import settings.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
 
-    private ViewPager pager = null;
+    private ViewPager viewPager = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         viewPager.setAdapter(new TabAdapter(getSupportFragmentManager(),
                 MainActivity.this));
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_settings:
+                Intent Settings = new Intent(this, SettingsActivity.class);
+                startActivity(Settings);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
