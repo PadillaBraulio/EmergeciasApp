@@ -61,7 +61,7 @@ public class PdfViewer {
         OutputStream newpdf = null;
         try {
             rawPdf = manager.open(filename);
-            if(rawPdf == null) throw new FileReadnullException("mangaer can not open " + filename) ;
+            if(rawPdf == null) throw new FileReadnullException("managaer can not open " + filename) ;
             newpdf = new FileOutputStream(new File(this.path));
             copyPdf(rawPdf , newpdf);
             rawPdf.close();
@@ -76,7 +76,7 @@ public class PdfViewer {
         finally {
             rawPdf = null;
             newpdf = null;
-            manager.close();
+            //manager.close();
         }
     }
     private void copyPdf(InputStream original , OutputStream copy)

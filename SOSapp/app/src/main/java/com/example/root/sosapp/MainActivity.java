@@ -1,7 +1,10 @@
 package com.example.root.sosapp;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +15,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.util.List;
 
 import manuals.ItemFragment;
 import manuals.PdfViewer;
@@ -60,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 
     @Override
     public void onListFragmentInteraction(DocContent.Document item) {
-        PdfViewer pdf = new PdfViewer(getApplicationContext(),item.filename);
+        PdfViewer pdf = new PdfViewer(this,item.filename);
         pdf.showPdf();
     }
 
@@ -97,5 +103,17 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
         public int getCount() {
             return PAG_COUNT;
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        List<Fragment> fragments = this.getSupportFragmentManager().getFragments();
+        if(fragments==null)return;
+        for(Fragment fragment : fragments){
+            if(fragment instanceof MapGoogle){
+                fragment.onRequestPermissionsResult(requestCode,permissions,grantResults);
+            }
+        }
+
     }
 }

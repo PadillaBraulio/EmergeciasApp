@@ -16,7 +16,6 @@ public class Emergency implements Runnable{
     //LOCAL DIRECTION "http://192.168.1.11:3000"
     //CLOUD9 DIRECTION https://webserversosapp-brauliojuancarlos.c9users.io
     private final static String DOMAIN = "https://webserversosapp-brauliojuancarlos.c9users.io" ;
-    private static final String CLASSNAME = "Emergency";
     private final double latitude;
     private final double longitude;
     private final String numberphone;
@@ -62,7 +61,7 @@ public class Emergency implements Runnable{
             }
             forecastJsonStr = buffer.toString();
         } catch (IOException e) {
-            Log.e(CLASSNAME,"Error of IO",e);
+            Log.e(this.getClass().getSimpleName(),"Error of IO",e);
         }
         finally {
             if (urlConnection != null) {
@@ -72,7 +71,7 @@ public class Emergency implements Runnable{
                 try {
                     reader.close();
                 } catch (final IOException e) {
-                    Log.e(CLASSNAME, "Error closing stream", e);
+                    Log.e(this.getClass().getSimpleName(), "Error closing stream", e);
                 }
             }
         }
@@ -83,11 +82,11 @@ public class Emergency implements Runnable{
     public void run() {
         if(putEmergency())
         {
-            Log.i(CLASSNAME, "Put emergency satisfactory");
+            Log.i(this.getClass().getSimpleName(), "Put emergency satisfactory");
 
         }else
         {
-            Log.e(CLASSNAME, "put Emergency insatisfactory");
+            Log.e(this.getClass().getSimpleName(), "put Emergency insatisfactory");
         }
     }
 }

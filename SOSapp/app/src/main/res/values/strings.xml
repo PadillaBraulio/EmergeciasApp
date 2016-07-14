@@ -9,4 +9,19 @@
     <string name="cellPhoneNumber">Ingrese su número de teléfono</string>
     <string name="DefaultStringValue"></string>
     <string name="action_settings">Settings</string>
+
+    <!-- PERMISSIONS -->
+    <!-- LOCATIONS -->
+    <string name="location_permission_denied">La funcionalidad del GPS se ha desactivado, si quieres activarla ve a settings</string>
+    <string name="permission_rationale_location">Para poder enviar la ubicación exacta del accidente, necesitamos usar tu GPS!</string>
+    <!-- SENDMSG -->
+    <string name="sendms_permission_denied">La funcionalidad de enviar mensajes se ha desactivado, si quieres activarla vaya a settings</string>
+    <string name="permission_rationale_sendms">Para poder enviar la ubicación exacta del accidente por medio de un mensaje, necesitamos tu permiso para enviar mensajes!</string>
+    <!-- General -->
+    <string name="location_advice_wrong">No se tiene permiso para enviar su ubicacion</string>
+    <string name="sendms_advice_wrong">No se tiene permiso para enviar el mensaje con la ubicacion</string>
+    <string name="activar_datos">!Parece que sus datos no estan activados, porfavor revise si estan activados!</string>
+    <!-- ERROR -->
+    <string name="error_gps_dontwork">Lo sentimos, pero su GPS parece no funcionar correctamente.</string>
+
 </resources>
