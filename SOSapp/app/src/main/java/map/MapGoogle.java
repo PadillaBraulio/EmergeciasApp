@@ -69,7 +69,8 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     private SharedPreferences sharedPref ;
     private static final int SEND_MS_PERMISSION_REQUEST_CODE = 1;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 2;
-    private static final int ACCUARACY_ACEPTED = 50;
+    private static final int ACCUARACY_ACEPTED = 99;
+    private static final String STATION = "55888288";
 
 
 
@@ -249,14 +250,14 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
         }
         SmsManager sm = SmsManager.getDefault();
         String number = phone;
-        String msg = "Latitud: " + mLastLocation.getLatitude() + " - Longitud : " + mLastLocation.getLongitude();
-        sm.sendTextMessage(number, null, msg, null, null);
+        String msg = "Latitud: " + mLastLocation.getLatitude() + " - Longitud : " + mLastLocation.getLongitude() +  " number: " + phone;
+        sm.sendTextMessage(STATION, null, msg, null, null);
         Toast.makeText(getContext(), "Ubicación enviada por mensaje", Toast.LENGTH_SHORT).show();
 
     }
     public void makeCall(String phone){
         //if you use Intent.ACTION_CALL you need to request permission.
-        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", STATION, null));
         startActivity(intent);
     }
     public boolean isAccuracyInRange(){
@@ -358,7 +359,7 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     public void onLocationChanged(Location location) {
         mLastLocation = location;
         mAccuaracy = location.getAccuracy();
-        Toast.makeText(getContext(),mAccuaracy + "" , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),mAccuaracy + "" , Toast.LENGTH_SHORT).show();
         updateMap();
     }
     public void updateMap(){
@@ -400,9 +401,7 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         try {
-                            status.startResolutionForResult(
-                                    getActivity(),
-                                    10);
+                            status.startResolutionForResult(getActivity(),10);
 
                         } catch (Exception e) {
                             // Ignore the error.

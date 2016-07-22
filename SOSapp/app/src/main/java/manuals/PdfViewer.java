@@ -20,14 +20,17 @@ import java.io.OutputStream;
  * Created by root on 6/07/16.
  */
 public class PdfViewer {
-    private final String path;
+    private  String path;
     private Context context;
     private final String filename;
 
     public PdfViewer(Context context, String filename) {
         this.context = context;
         this.filename = filename;
-        this.path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + filename;
+        try {
+            this.path = Environment.getExternalStorageDirectory().getCanonicalPath().toString() + "/" + filename;
+        } catch (IOException e) {
+        }
     }
     public void showPdf()
     {
@@ -69,9 +72,9 @@ public class PdfViewer {
             newpdf.close();
 
         } catch (IOException e) {
-            Log.e(this.getClass().getSimpleName(),e.toString());
+            Log.e(this.getClass().getSimpleName(),e.toString() );
         }catch (FileReadnullException e) {
-            Log.e(this.getClass().getSimpleName(),e.toString());
+            Log.e(this.getClass().getSimpleName(),e.toString() );
         }
         finally {
             rawPdf = null;
