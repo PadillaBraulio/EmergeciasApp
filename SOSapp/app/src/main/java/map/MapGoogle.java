@@ -67,8 +67,9 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     private String deniedMessage = "";
     private boolean flagIntentMobileData = true;
     private SharedPreferences sharedPref ;
-    private static final int SEND_MS_PERMISSION_REQUEST_CODE = 1;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 2;
+    public static final int SEND_MS_PERMISSION_REQUEST_CODE = 1;
+    public static final int LOCATION_PERMISSION_REQUEST_CODE = 2;
+    public static final int WRITE_PERMISSION_REQUEST_CODE = 3;
     private static final int ACCUARACY_ACEPTED = 99;
     private static final String STATION = "55888288";
 
@@ -91,6 +92,7 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     public void onStart() {
         mGoogleApiClient.connect();
         super.onStart();
+        setUpMapIfNeeded();
 
     }
 
@@ -98,8 +100,6 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     @Override
     public void onResume() {
         super.onResume();
-        setUpMapIfNeeded();
-        setUpMap();
         sendDeniedMessage();
         startLocationIfNeeded();
 
@@ -166,7 +166,6 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
 
     public void setUpMapIfNeeded(){
         if (mMap == null) {
-
             getMapAsync(this);
         }
     }
@@ -174,7 +173,6 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
 
 
     public void sendDeniedMessage(){
-        // send Deniedmessage
         if(!deniedMessage.equals("")){
             DeniedDialog(deniedMessage);
             deniedMessage = "";
@@ -280,7 +278,6 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
         mesg.start();
     }
     private void setUpMap() {
-        if(mMap==null) return;
         if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -289,7 +286,7 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
             return;
         }
 
-        mMap.getUiSettings().setMapToolbarEnabled(false);
+        mMap.getUiSettings().setMapToolbarEnabled(true);
         mMap.setMyLocationEnabled(true);
         UiSettings settings = mMap.getUiSettings();
         settings.setMyLocationButtonEnabled(true);
@@ -298,7 +295,6 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     public void initLocation(){
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
-            // Permissions.requestPermission((AppCompatActivity) getActivity(),LOCATION_PERMISSION_REQUEST_CODE, Manifest.permission.ACCESS_FINE_LOCATION);
             return;
         }
 
@@ -314,7 +310,6 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
         if(mLocationRequest == null) return;
         mRequestingLocationUpdates = true;
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
-            //Permissions.requestPermission((AppCompatActivity) getActivity(),LOCATION_PERMISSION_REQUEST_CODE, Manifest.permission.ACCESS_FINE_LOCATION);
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(
@@ -348,6 +343,15 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
                 else{
                     makeMessageAndCall(phone);
                     deniedMessage =Manifest.permission.SEND_SMS;
+                }
+                return;
+            }
+            case WRITE_PERMISSION_REQUEST_CODE:{
+                if(Permissions.isPermissionGranted(permissions,grantResults,Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+
+                }
+                else{
+                    deniedMessage = Manifest.permission.WRITE_EXTERNAL_STORAGE;
                 }
                 return;
             }

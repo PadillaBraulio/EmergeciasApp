@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">SOSapp</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="google_map_key">AIzaSyD3Bg5aUAR30ooRa1Gjyvig3PaVjyv1KpA</string>
     <string name="SendLocation">Enviar ubicación</string>
@@ -12,14 +11,19 @@
 
     <!-- PERMISSIONS -->
     <!-- LOCATIONS -->
-    <string name="location_permission_denied">La funcionalidad del GPS se ha desactivado, si quieres activarla ve a settings</string>
-    <string name="permission_rationale_location">Para poder enviar la ubicación exacta del accidente, necesitamos usar tu GPS!</string>
+    <string name="location_permission_denied">No tenemos el permiso obtener tu ubicación GPS, este permiso es vital para que la aplicación funcione, si el permiso fue permanentemente denegado este puede activarse desde Settings->Apps->SOSapp</string>
+    <string name="permission_rationale_location">La principal función de la aplicación es enviar tus coordenadas GPS a los bomberos, por lo que necesitamos que nos consedas el permiso de obtener tu ubicación, ¿Deseas concedernos este permiso?</string>
     <!-- SENDMSG -->
-    <string name="sendms_permission_denied">La funcionalidad de enviar mensajes se ha desactivado, si quieres activarla vaya a settings</string>
-    <string name="permission_rationale_sendms">Para poder enviar la ubicación exacta del accidente por medio de un mensaje, necesitamos tu permiso para enviar mensajes!</string>
+    <string name="sendms_permission_denied">No se enviará el mensaje a los bomberos con tu ubicación, si deseas activar el permiso, reinicia la aplicación y pulsa nuevamente el boton "llamar", y se solicitara el permiso nuevamente.</string>
+    <string name="permission_rationale_sendms">Para enviar un mensaje con tu ubicación a los bomberos, necesitamos que nos consedas el permiso para enviar mensajes, ¿Deseas concedernos ese permiso?</string>
+    <!-- Escritura (Archivo pdf) -->
+    <string name="write_permission_denied">No tenemos el permiso para poder escribir el archivo PDF y mostrartelo, si el permiso fue permanentemente denegado este puede activarse desde Settings->Apps->SOSapp </string>
+    <string name="write_permission_rationale">Para mostrarte el manual, necesitamos tener permisos de escritura, para escribir el archivo pdf y mostrartelo. ¿Deseas concedernos el permiso?</string>
+
     <!-- General -->
-    <string name="location_advice_wrong">No se tiene permiso para enviar su ubicacion</string>
+    <string name="location_advice_wrong">No se tiene permiso para enviar su ubicacion, es necesaria para el uso de la aplicación</string>
     <string name="sendms_advice_wrong">No se tiene permiso para enviar el mensaje con la ubicacion</string>
+    <string name="write_advice_wrong">No se tiene permiso para escribir el archivo.</string>
     <string name="activar_datos">!Parece que sus datos no estan activados, porfavor revise si estan activados!</string>
     <!-- ERROR -->
     <string name="error_gps_dontwork">Lo sentimos, pero su GPS parece no funcionar correctamente.</string>

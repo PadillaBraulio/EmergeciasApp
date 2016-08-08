@@ -18,9 +18,11 @@ import java.security.Permission;
  * Created by root on 11/07/16.
  */
 public class Permissions {
-
+    public static int i = 0;
     public static void requestPermission(AppCompatActivity activity, int requestId,
                                          String permission) {
+
+        i = i + 1;
         if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
             // Display a dialog with rationale.
             Permissions.RationaleDialog.newInstance(requestId, permission)
@@ -84,8 +86,13 @@ public class Permissions {
             super.onDismiss(dialog);
             Toast.makeText(getActivity(), Utilities.getAdviceWrong(permission),
                     Toast.LENGTH_SHORT).show();
+            if(permission.equals(Manifest.permission.ACCESS_FINE_LOCATION)){
+               // getActivity().finish();
+
+            }
 
         }
+
     }
 
     /**
@@ -217,9 +224,14 @@ public class Permissions {
                 case Manifest.permission.ACCESS_FINE_LOCATION:{
                     return R.string.location_permission_denied;
                 }
+                case Manifest.permission.WRITE_EXTERNAL_STORAGE:{
+                    return R.string.write_permission_denied;
+                }
             }
             return -1;
         }
+
+
         public static int getPermissionRationale(String permission){
             switch (permission){
                 case Manifest.permission.SEND_SMS:{
@@ -227,6 +239,9 @@ public class Permissions {
                 }
                 case Manifest.permission.ACCESS_FINE_LOCATION:{
                     return R.string.permission_rationale_location;
+                }
+                case Manifest.permission.WRITE_EXTERNAL_STORAGE:{
+                    return R.string.write_permission_rationale;
                 }
             }
             return -1;
@@ -238,6 +253,9 @@ public class Permissions {
                 }
                 case Manifest.permission.ACCESS_FINE_LOCATION:{
                     return R.string.location_advice_wrong;
+                }
+                case Manifest.permission.WRITE_EXTERNAL_STORAGE:{
+                    return R.string.write_advice_wrong;
                 }
             }
             return -1;

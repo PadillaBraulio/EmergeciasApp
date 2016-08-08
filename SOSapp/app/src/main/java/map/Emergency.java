@@ -15,7 +15,8 @@ import java.net.URL;
 public class Emergency implements Runnable{
     //LOCAL DIRECTION "http://192.168.1.11:3000"
     //CLOUD9 DIRECTION https://webserversosapp-brauliojuancarlos.c9users.io
-    private final static String DOMAIN = "https://webserversosapp-brauliojuancarlos.c9users.io" ;
+    //AWS CLOUD IP PUBLIC CHANGE AT ONCE RESTART http://54.218.223.170:3002/
+    private final static String DOMAIN = "http://54.218.223.170:3002" ;
     private final double latitude;
     private final double longitude;
     private final String numberphone;

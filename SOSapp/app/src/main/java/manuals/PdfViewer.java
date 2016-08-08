@@ -1,13 +1,20 @@
 package manuals;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.example.root.sosapp.Permissions;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +22,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import map.MapGoogle;
 
 /**
  * Created by root on 6/07/16.
@@ -24,7 +33,7 @@ public class PdfViewer {
     private Context context;
     private final String filename;
 
-    public PdfViewer(Context context, String filename) {
+    public PdfViewer(Activity context, String filename) {
         this.context = context;
         this.filename = filename;
         try {
@@ -59,6 +68,13 @@ public class PdfViewer {
     }
     private void createPdf()
     {
+        if (ContextCompat.checkSelfPermission(context.getApplicationContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            Permissions.requestPermission((AppCompatActivity) context,
+                    MapGoogle.WRITE_PERMISSION_REQUEST_CODE,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            return;
+        }
         AssetManager manager = context.getAssets();
         InputStream rawPdf = null;
         OutputStream newpdf = null;
