@@ -1,4 +1,4 @@
-package manuals;
+package com.emergenciasapp.manuals;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,11 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import manuals.ItemFragment.OnListFragmentInteractionListener;
+import com.emergenciasapp.manuals.ItemFragment.OnListFragmentInteractionListener;
 
-import com.example.root.sosapp.R;
+import com.emergenciasapp.sosapp.R;
 
-import manuals.doc.DocContent.Document;
+import com.emergenciasapp.manuals.doc.DocContent.Document;
 
 public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerViewAdapter.ViewHolder> {
 

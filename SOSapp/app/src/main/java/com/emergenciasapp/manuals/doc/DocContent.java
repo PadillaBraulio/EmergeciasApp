@@ -1,4 +1,4 @@
-package manuals.doc;
+package com.emergenciasapp.manuals.doc;
 
 
 public class DocContent {

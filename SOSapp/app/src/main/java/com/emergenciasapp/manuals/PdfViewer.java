@@ -1,4 +1,4 @@
-package manuals;
+package com.emergenciasapp.manuals;
 
 import android.Manifest;
 import android.app.Activity;
@@ -14,16 +14,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.root.sosapp.Permissions;
+import com.emergenciasapp.sosapp.Permissions;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import map.MapGoogle;
+import com.emergenciasapp.map.MapGoogle;
 
 /**
  * Created by root on 6/07/16.

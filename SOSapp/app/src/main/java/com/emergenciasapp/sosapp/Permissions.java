@@ -1,4 +1,4 @@
-package com.example.root.sosapp;
+package com.emergenciasapp.sosapp;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -87,7 +87,7 @@ public class Permissions {
             Toast.makeText(getActivity(), Utilities.getAdviceWrong(permission),
                     Toast.LENGTH_SHORT).show();
             if(permission.equals(Manifest.permission.ACCESS_FINE_LOCATION)){
-               // getActivity().finish();
+                getActivity().finish();
 
             }
 
@@ -147,7 +147,14 @@ public class Permissions {
                             showmessage = false;
                         }
                     })
-                    .setNegativeButton(android.R.string.cancel, null)
+                    .setNegativeButton(android.R.string.cancel,  new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if(permission.equals(Manifest.permission.ACCESS_FINE_LOCATION)){
+                                getActivity().finish();
+                            }
+                        }
+                    })
                     .create();
         }
 

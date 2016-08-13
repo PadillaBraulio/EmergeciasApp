@@ -1,4 +1,4 @@
-package map;
+package com.emergenciasapp.map;
 
 import android.util.Log;
 

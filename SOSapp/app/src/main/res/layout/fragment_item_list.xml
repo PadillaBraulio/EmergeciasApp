@@ -10,5 +10,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="manuals.ItemFragment"
+    tools:context="com.emergenciasapp.manuals.ItemFragment"
     tools:listitem="@layout/fragment_item" />

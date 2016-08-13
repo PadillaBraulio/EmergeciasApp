@@ -1,10 +1,10 @@
-package settings;
+package com.emergenciasapp.settings;
 
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
-import com.example.root.sosapp.R;
+import com.emergenciasapp.sosapp.R;
 
 
 public class SettingsFragment extends PreferenceFragment {

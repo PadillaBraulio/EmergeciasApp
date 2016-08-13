@@ -1,9 +1,7 @@
-package com.example.root.sosapp;
+package com.emergenciasapp.sosapp;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,15 +13,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.List;
 
-import manuals.ItemFragment;
-import manuals.PdfViewer;
-import manuals.doc.DocContent;
-import map.MapGoogle;
-import settings.SettingsActivity;
+import com.emergenciasapp.manuals.ItemFragment;
+import com.emergenciasapp.manuals.PdfViewer;
+import com.emergenciasapp.manuals.doc.DocContent;
+import com.emergenciasapp.map.MapGoogle;
+import com.emergenciasapp.settings.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
 

@@ -1,4 +1,4 @@
-package settings;
+package com.emergenciasapp.settings;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.root.sosapp.MainActivity;
-import com.example.root.sosapp.R;
+import com.emergenciasapp.sosapp.MainActivity;
+import com.emergenciasapp.sosapp.R;
 
 public class SettingsActivity extends AppCompatActivity {
 

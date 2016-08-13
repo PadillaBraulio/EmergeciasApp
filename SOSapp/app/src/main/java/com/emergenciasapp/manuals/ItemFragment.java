@@ -1,4 +1,4 @@
-package manuals;
+package com.emergenciasapp.manuals;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,10 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.root.sosapp.R;
+import com.emergenciasapp.sosapp.R;
 
-import manuals.doc.DocContent;
-import manuals.doc.DocContent.Document;
+import com.emergenciasapp.manuals.doc.DocContent;
+import com.emergenciasapp.manuals.doc.DocContent.Document;
 
 /**
  * A fragment representing a list of Items.
