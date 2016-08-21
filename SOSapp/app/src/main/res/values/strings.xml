@@ -28,4 +28,8 @@
     <!-- ERROR -->
     <string name="error_gps_dontwork">Lo sentimos, pero su GPS parece no funcionar correctamente.</string>
 
+    <!-- General -->
+    <string name="call">LLAMAR</string>
+    <string name="latitude">Latitud : 0.00</string>
+    <string name="longitude">Longitud : 0.00</string>
 </resources>

@@ -128,32 +128,16 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
         RelativeLayout layout = new RelativeLayout(v.getContext());
 
         layout.addView(v, new RelativeLayout.LayoutParams(-1, -1));
-        GradientDrawable drawable = new GradientDrawable();
-        drawable.setShape(GradientDrawable.RECTANGLE);
-        drawable.setColor(Color.parseColor("#F7B612"));
-        drawable.setCornerRadius(100);
-        Button abuton;
-        abuton = new Button(v.getContext());
-        abuton.setText("LLAMAR");
-        abuton.setTextSize(18);
-        abuton.setTextColor(Color.WHITE);
-        abuton.setBackgroundDrawable(drawable);
-        abuton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                makeAction();
-
-            }
-        });
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
                 (RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         params.addRule(RelativeLayout.CENTER_HORIZONTAL);
         params.setMargins(20, 0, 20, 40);
+        View v2 = inflater.inflate(R.layout.map_menu, container, false);
 
-        layout.addView(abuton, params);
-
+        layout.addView(v2,params);
+        //make action
         return layout;
     }
 
