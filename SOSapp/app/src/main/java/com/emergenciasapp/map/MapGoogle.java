@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.emergenciasapp.sosapp.Permissions;
@@ -61,7 +62,6 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
     private boolean mRequestingLocationUpdates;
-    private float mAccuaracy = 100;
 
     private String deniedMessage = "";
     private boolean flagIntentMobileData = true;
@@ -69,7 +69,8 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     public static final int SEND_MS_PERMISSION_REQUEST_CODE = 1;
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 2;
     public static final int WRITE_PERMISSION_REQUEST_CODE = 3;
-    private static final int ACCUARACY_ACEPTED = 99;
+    private TextView latitude;
+    private TextView longitude;
     private static final String STATION = "55888288";
 
 
@@ -135,8 +136,11 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
         params.addRule(RelativeLayout.CENTER_HORIZONTAL);
         params.setMargins(20, 0, 20, 40);
         View v2 = inflater.inflate(R.layout.map_menu, container, false);
-
         layout.addView(v2,params);
+
+        Button btn1 = (Button) v2.findViewById(R.id.btn_llamar);
+        latitude = (TextView) v2.findViewById(R.id.latitude);
+        longitude = (TextView) v2.findViewById(R.id.longitude);
         //make action
         return layout;
     }
@@ -223,7 +227,6 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
                 .create().show();
     }
     public void sendMs(final String phone){
-        if(!isAccuracyInRange()) return;
 
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.SEND_SMS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -241,24 +244,12 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", STATION, null));
         startActivity(intent);
     }
-    public boolean isAccuracyInRange(){
-        if (mAccuaracy  > ACCUARACY_ACEPTED) {
-            Toast.makeText(getContext(),"No se envio su localización, no tiene buena señal", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        return true;
 
-    }
     public void sendEmergency(final String phone) {
-
-        if(!isAccuracyInRange()) return;
-
-        Emergency em = new Emergency(mLastLocation.getLatitude(),
+        Thread Emergency = new Thread(new Emergency(mLastLocation.getLatitude(),
                 mLastLocation.getLongitude(),
-                phone
-        );
-        Thread mesg = new Thread(em);
-        mesg.start();
+                phone));
+        Emergency.start();
     }
     private void setUpMap() {
         if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
@@ -345,13 +336,13 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     @Override
     public void onLocationChanged(Location location) {
         mLastLocation = location;
-        mAccuaracy = location.getAccuracy();
-        //Toast.makeText(getContext(),mAccuaracy + "" , Toast.LENGTH_SHORT).show();
         updateMap();
     }
     public void updateMap(){
         LatLng ubication = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
         this.mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubication, 15));
+        latitude.setText(mLastLocation.getLatitude() + "");
+        longitude.setText(mLastLocation.getLongitude() + "");
     }
     @Override
     public void onConnected(@Nullable Bundle bundle) {
