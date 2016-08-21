@@ -1,5 +1,7 @@
 package com.emergenciasapp.map;
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,6 +15,7 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -26,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,9 +59,8 @@ import com.google.android.gms.maps.model.Marker;
 /**
  * Created by root on 2/05/16.
  */
-public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
     private GoogleMap mMap;
-    private Marker marker;
 
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -71,10 +74,15 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 2;
     public static final int WRITE_PERMISSION_REQUEST_CODE = 3;
     public static final int REQUEST_CHECK_SETTINGS = 4;
+    private static final int ACCEPTABLE_SIGNAL = 50;
     private TextView latitude;
     private TextView longitude;
+    private TextView senal;
+    private Button btnCall;
+    private ProgressBar mprogressBar;
+    private int counterGpsCalls;
     private static final String STATION = "55888288";
-
+    private boolean showUbication;
 
 
     @Override
@@ -136,13 +144,16 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
                 (RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         params.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        params.setMargins(20, 0, 20, 40);
+        params.setMargins(20, 0, 20, 50);
         View v2 = inflater.inflate(R.layout.map_menu, container, false);
         layout.addView(v2,params);
 
-        Button btn1 = (Button) v2.findViewById(R.id.btn_llamar);
+        btnCall = (Button) v2.findViewById(R.id.btn_llamar);
         latitude = (TextView) v2.findViewById(R.id.latitude);
         longitude = (TextView) v2.findViewById(R.id.longitude);
+        senal = (TextView) v2.findViewById(R.id.senal);
+        mprogressBar = (ProgressBar) v2.findViewById(R.id.progressBar);
+        btnCall.setOnClickListener(this);
         //make action
         return layout;
     }
@@ -158,8 +169,6 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
             getMapAsync(this);
         }
     }
-
-
 
     public void sendDeniedMessage(){
         if(!deniedMessage.equals("")){
@@ -357,26 +366,68 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
         mLastLocation = location;
         updateMap();
     }
+    private void updateSignalView(){
+        int accuaracy = (int)mLastLocation.getAccuracy();
+        if(accuaracy < ACCEPTABLE_SIGNAL/2 ){
+            senal.setText(R.string.good_senal);
+            senal.setTextColor(Color.parseColor("#4CAF50"));
+        }else if (accuaracy < ACCEPTABLE_SIGNAL){
+            senal.setText(R.string.regular_senal);
+            senal.setTextColor(Color.parseColor("#FF9800"));
+        }else{
+            senal.setText(R.string.bad_senal);
+            senal.setTextColor(Color.RED);
+        }
+    }
+    private void updateTextViews(){
+        latitude.setText(R.string.latitude + " " + mLastLocation.getLatitude() );
+        longitude.setText(R.string.longitude + " " + mLastLocation.getLongitude() );
+    }
+
+    private void makeCallIfNeeded(){
+        int signal = (mLastLocation.getAccuracy()< ACCEPTABLE_SIGNAL)?1:0;
+        if(showUbication && signal == 1) {
+            showUbication = false;
+            makeAction();
+            showProgress(false);
+        }else if(counterGpsCalls == 2){
+            showUbication = false;
+            counterGpsCalls = 0;
+            showProgress(false);
+            Toast.makeText(getContext(), R.string.gpsUbicationUnrechable,Toast.LENGTH_LONG).show();
+            makeCall(STATION);
+        }
+        else if(showUbication && signal == 0){
+            counterGpsCalls++;
+
+        }
+
+
+    }
     public void updateMap(){
         LatLng ubication = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
         this.mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubication, 15));
-        latitude.setText("Latitude : " + mLastLocation.getLatitude() + "");
-        longitude.setText("Longitude : " + mLastLocation.getLongitude() + "");
+        updateTextViews();
+        updateSignalView();
+        makeCallIfNeeded();
     }
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         initLocation();
     }
 
-
     @Override
     public void onConnectionSuspended(int i) {
     }
 
+    private void setInterval(int seg){
+        mLocationRequest.setInterval(seg * 1000);
+        mLocationRequest.setFastestInterval(seg * 500);
+    }
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(1000);
-        mLocationRequest.setFastestInterval(500);
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(5000);
 
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
@@ -401,11 +452,9 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
                             status.startResolutionForResult(getActivity(),REQUEST_CHECK_SETTINGS);
 
                         } catch (Exception e) {
-                            // Ignore the error.
                         }
                         break;
                     case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        //THE GPS IS BAD
                         Toast.makeText(getContext(), R.string.error_gps_dontwork,Toast.LENGTH_LONG).show();
                         getActivity().finish();
                         break;
@@ -418,5 +467,34 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+    private void showProgress(final boolean show){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            btnCall.setVisibility(show ? View.GONE : View.VISIBLE);
+            mprogressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            mprogressBar.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mprogressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            mprogressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            btnCall.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
+    }
+
+    /**
+     * Call button pressed
+     * @param view
+     */
+    @Override
+    public void onClick(View view) {
+        showProgress(true);
+        setInterval(2);// CHANGING THE TIME FOR EACH UPDATE FOR GPS
+        showUbication = true;
     }
 }

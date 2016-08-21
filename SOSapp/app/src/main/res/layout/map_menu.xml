@@ -10,6 +10,17 @@
         android:id="@+id/linearlayout"
         android:background="@color/colorGry"
         android:padding="1dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/senal"
+            android:id="@+id/senal"
+            android:textColor="@color/TextViewColor"
+            android:background="@color/BackgroundTextView"
+            />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -17,9 +28,8 @@
             android:text="@string/latitude"
             android:textColor="@color/TextViewColor"
             android:id="@+id/latitude"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/senal"
+            android:layout_marginTop="1dp"
             android:background="@color/BackgroundTextView"/>
 
         <TextView
@@ -29,9 +39,6 @@
             android:text="@string/longitude"
             android:id="@+id/longitude"
             android:textColor="@color/TextViewColor"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/latitude"
             android:background="@color/BackgroundTextView"
             android:layout_marginTop="1dp"
@@ -51,10 +58,13 @@
         android:layout_below="@id/linearlayout" />
 
     <ProgressBar
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal|top"
         android:layout_below="@+id/linearlayout"
+        android:layout_marginTop="15dp"
+        android:background="@color/colorPrimary"
         android:visibility="gone" />
 </RelativeLayout>

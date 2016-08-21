@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorPrimary200">#9FA8DA</color>
-    <color name="colorPrimary400">#5C6BC0</color>
+    <color name="colorPrimary">#F44336</color>
+    <color name="colorPrimaryDark">#D32F2F</color>
+    <color name="colorPrimary200">#EF9A9A</color>
+    <color name="colorPrimary400">#EF5350</color>
+    <color name="colorPrimary100">#FFCDD2</color>
     <color name="colorGray200">#EEEEEE</color>
     <color name="colorGray300">#E0E0E0</color>
     <color name="colorGray400">#BDBDBD</color>
     <color name="colorAmber50">#efebe9</color>
     <color name="colorAmber100">#fff9c4</color>
+    <color name="colorGreen">#4CAF50</color>
+    <color name="colorYellow">#FF9800</color>
 
     <color name="colorAccent">#FF4081</color>
-    <color name="orange">#d4680f</color>
     <color name="colorGry">#BDBDBD</color>
     <color name="TextViewColor">#93918e</color>
     <color name="BackgroundTextView">#F5F5F5</color>
