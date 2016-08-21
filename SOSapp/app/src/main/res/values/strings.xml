@@ -16,6 +16,7 @@
     <!-- SENDMSG -->
     <string name="sendms_permission_denied">No se enviará el mensaje a los bomberos con tu ubicación, si deseas activar el permiso, reinicia la aplicación y pulsa nuevamente el boton "llamar", y se solicitara el permiso nuevamente.</string>
     <string name="permission_rationale_sendms">Para enviar un mensaje con tu ubicación a los bomberos, necesitamos que nos consedas el permiso para enviar mensajes, ¿Deseas concedernos ese permiso?</string>
+    <string name="advice_message_was_sended"></string>
     <!-- Escritura (Archivo pdf) -->
     <string name="write_permission_denied">No tenemos el permiso para poder escribir el archivo PDF y mostrartelo, si el permiso fue permanentemente denegado este puede activarse desde Settings->Apps->SOSapp </string>
     <string name="write_permission_rationale">Para mostrarte el manual, necesitamos tener permisos de escritura, para escribir el archivo pdf y mostrartelo. ¿Deseas concedernos el permiso?</string>
@@ -31,8 +32,9 @@
     <string name="gpsUbicationUnrechable">Lo sentimos, no pudimos encontrar unas coordendas GPS adecuadas. Pero igualmente comunicate con los bomberos!</string>
     <!-- General -->
     <string name="call">LLAMAR</string>
-    <string name="latitude">Latitud : </string>
-    <string name="longitude">Longitud : </string>
+    <string name="latitude"> Latitud : </string>
+    <string name="longitude"> Longitud : </string>
+    <string name="telefone"> Telefono : </string>
     <string name="senal">Señal : Ninguna </string>
     <string name="good_senal">Señal : Buena </string>
     <string name="bad_senal">Señal : Mala </string>

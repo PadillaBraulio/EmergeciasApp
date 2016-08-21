@@ -60,29 +60,49 @@ import com.google.android.gms.maps.model.Marker;
  * Created by root on 2/05/16.
  */
 public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
+    /**
+     * Google Api variables
+     */
     private GoogleMap mMap;
-
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
     private boolean mRequestingLocationUpdates;
 
-    private String deniedMessage = "";
+    /**
+     * Counters and flags
+     */
+    private boolean showUbication;
     private boolean flagIntentMobileData = true;
+    private String deniedMessage = "";
+    private int counterGpsCalls;
+
+    /**
+     * Telefone of the central station, this is only for san jose pinula station.
+     */
+    private static final String STATION = "55888288";
+
+    /**
+     * Shared Preferences
+     */
     private SharedPreferences sharedPref ;
-    public static final int SEND_MS_PERMISSION_REQUEST_CODE = 1;
-    public static final int LOCATION_PERMISSION_REQUEST_CODE = 2;
-    public static final int WRITE_PERMISSION_REQUEST_CODE = 3;
-    public static final int REQUEST_CHECK_SETTINGS = 4;
-    private static final int ACCEPTABLE_SIGNAL = 50;
+    /**
+     * UI view variables
+     */
     private TextView latitude;
     private TextView longitude;
     private TextView senal;
     private Button btnCall;
     private ProgressBar mprogressBar;
-    private int counterGpsCalls;
-    private static final String STATION = "55888288";
-    private boolean showUbication;
+
+    /**
+     * Request_Codes to check the permission results.
+     */
+    private static final int SEND_MS_PERMISSION_REQUEST_CODE = 1;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 2;
+    private static final int WRITE_PERMISSION_REQUEST_CODE = 3;
+    private static final int REQUEST_CHECK_SETTINGS = 4;
+    private static final int ACCEPTABLE_SIGNAL = 50;
 
 
     @Override
@@ -245,9 +265,9 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
         }
         SmsManager sm = SmsManager.getDefault();
         String number = phone;
-        String msg = "Latitud: " + mLastLocation.getLatitude() + " - Longitud : " + mLastLocation.getLongitude() +  " number: " + phone;
+        String msg = R.string.latitude + mLastLocation.getLatitude() + " " + R.string.longitude + mLastLocation.getLongitude() + R.string.telefone + phone;
         sm.sendTextMessage(STATION, null, msg, null, null);
-        Toast.makeText(getContext(), "Ubicación enviada por mensaje", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.advice_message_was_sended, Toast.LENGTH_SHORT).show();
 
     }
     public void makeCall(String phone){
