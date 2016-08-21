@@ -113,4 +113,15 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
         }
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        List<Fragment> fragments = this.getSupportFragmentManager().getFragments();
+        if(fragments==null)return;
+        for(Fragment fragment : fragments){
+            if(fragment instanceof MapGoogle){
+                fragment.onActivityResult(requestCode,resultCode,data);
+            }
+        }
+    }
 }

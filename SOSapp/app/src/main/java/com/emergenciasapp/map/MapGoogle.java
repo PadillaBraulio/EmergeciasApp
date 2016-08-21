@@ -1,5 +1,6 @@
 package com.emergenciasapp.map;
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -69,6 +70,7 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     public static final int SEND_MS_PERMISSION_REQUEST_CODE = 1;
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 2;
     public static final int WRITE_PERMISSION_REQUEST_CODE = 3;
+    public static final int REQUEST_CHECK_SETTINGS = 4;
     private TextView latitude;
     private TextView longitude;
     private static final String STATION = "55888288";
@@ -334,6 +336,23 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            // Check for the integer request code originally supplied to startResolutionForResult().
+            case REQUEST_CHECK_SETTINGS:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        startLocationUpdates();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Toast.makeText(getContext(), R.string.dontProvideGpsPermission,Toast.LENGTH_LONG).show();
+                        getActivity().finish();
+                }
+                break;
+        }
+    }
+
+    @Override
     public void onLocationChanged(Location location) {
         mLastLocation = location;
         updateMap();
@@ -341,8 +360,8 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
     public void updateMap(){
         LatLng ubication = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
         this.mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubication, 15));
-        latitude.setText(mLastLocation.getLatitude() + "");
-        longitude.setText(mLastLocation.getLongitude() + "");
+        latitude.setText("Latitude : " + mLastLocation.getLatitude() + "");
+        longitude.setText("Longitude : " + mLastLocation.getLongitude() + "");
     }
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -356,8 +375,8 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setInterval(1000);
+        mLocationRequest.setFastestInterval(500);
 
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
@@ -379,7 +398,7 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         try {
-                            status.startResolutionForResult(getActivity(),10);
+                            status.startResolutionForResult(getActivity(),REQUEST_CHECK_SETTINGS);
 
                         } catch (Exception e) {
                             // Ignore the error.
@@ -388,6 +407,7 @@ public class MapGoogle extends SupportMapFragment implements OnMapReadyCallback,
                     case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
                         //THE GPS IS BAD
                         Toast.makeText(getContext(), R.string.error_gps_dontwork,Toast.LENGTH_LONG).show();
+                        getActivity().finish();
                         break;
                 }
             }

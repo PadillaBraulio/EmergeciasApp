@@ -27,6 +27,7 @@
     <string name="activar_datos">!Parece que sus datos no estan activados, porfavor revise si estan activados!</string>
     <!-- ERROR -->
     <string name="error_gps_dontwork">Lo sentimos, pero su GPS parece no funcionar correctamente.</string>
+    <string name="dontProvideGpsPermission">No podemos utilizar el gps, necesitamos usarla para que la aplicación funcione correctamente.</string>
 
     <!-- General -->
     <string name="call">LLAMAR</string>
